@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "C/C++: g++.exe 生成活动文件",
+      "type": "shell",
+      "command": "C:/Users/19480/scoop/apps/mingw/current/bin/g++.exe",
+      "args": [
+        "-fdiagnostics-color=always",
+        "-g",
+        "-static-libgcc",
+        "-static-libstdc++",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "使用 g++ 编译当前打开的源文件，-g 保留调试信息"
+    },
+    {
+      "label": "C/C++: g++.exe 编译并运行",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "C:/Users/19480/scoop/apps/mingw/current/bin/g++.exe -g -static-libgcc -static-libstdc++ \"${file}\" -o \"${fileDirname}\\${fileBasenameNoExtension}.exe\" && \"${fileDirname}\\${fileBasenameNoExtension}.exe\""
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "编译当前文件并立即运行（适合快速验证）"
+    }
+  ]
+}

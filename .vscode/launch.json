@@ -1,0 +1,55 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 方案 A：本地 Windows 程序调试（MinGW gdb）。
+      // 本项目 main.cpp 是 PC 端程序，按 F5 默认走这个，开箱可用。
+      "name": "(gdb) 启动",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:/Users/19480/scoop/apps/mingw/current/bin/gdb.exe",
+      "setupCommands": [
+        {
+          "description": "为 gdb 启用整齐打印",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "忽略挂接子进程时的 SIGTRAP",
+          "text": "handle SIGTRAP nostop noprint pass",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "C/C++: g++.exe 生成活动文件"
+    },
+    {
+      // 方案 B：单片机（ARM Cortex-M）调试，通过 OpenOCD + 调试探针（ST-Link / J-Link / DAPLink）。
+      // 默认不选它——按下拉框手动切换才会用到。
+      //
+      // 用之前必须满足（缺一个都会报 "GDB Server Quit Unexpectedly"）：
+      //   1. 已装 cortex-debug 扩展（marus25.cortex-debug）
+      //   2. 有 ARM 交叉工具链 arm-none-eabi-gcc（当前机器上没有）
+      //   3. 存在被调试的固件 ELF，且路径与下面的 executable 一致
+      //   4. openocd.cfg 里的「探针型号」和「芯片型号」与你的板子一致
+      //   5. 探针已插上、板子已上电
+      "name": "OpenOCD: Debug (ARM)",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/build/firmware.elf",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "configFiles": ["${workspaceFolder}/openocd.cfg"],
+      "liveWatch": {
+        "enabled": true,
+        "samplesPerSecond": 20
+      }
+    }
+  ]
+}
